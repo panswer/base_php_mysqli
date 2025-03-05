@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+  web-app:
+    container_name: web-php-app
+    build: .
+    volumes:
+      - ./web:/var/www/html
+    ports:
+      - 8080:80
+    env_file:
+      - .env
+    networks:
+      - web
+      - db
+    depends_on:
+      - web-db
+  web-db:
+    container_name: web-php-db
+    image: mysql:8
+    env_file:
+      - .env
+    volumes:
+      - ./db:/var/lib/mysql
+    networks:
+      - db
+
+networks:
+  web:
+  db:
